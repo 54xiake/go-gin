@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"github.com/astaxie/beego/logs"
 	"github.com/gin-gonic/gin"
 	"go-gin/global"
 )
@@ -23,16 +22,10 @@ func main() {
 	}
 
 	// 默认启动方式，包含 Logger、Recovery 中间件
-	router := gin.Default()
+	router := gin.New()
+	router.Use(gin.Logger(), gin.Recovery())
+	router.Use(global.CustomRouterMiddle1)
 	router.Use(global.LoggerToFile())
-	router.GET("/ping", func(c *gin.Context) {
-		logs.Info("ping=============")
-
-		global.Logger().Info("记录一下日志=====")
-
-		c.JSON(200, gin.H{
-			"message": "ping",
-		})
-	})
+	global.InitRouter(router)
 	router.Run() //listen and server on 0.0.0.0:8080
 }
