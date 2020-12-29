@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"github.com/gin-gonic/gin"
-	"go-gin/global"
+	"go-gin/initialize"
 	"net/http"
 	"time"
 )
@@ -13,11 +13,13 @@ var (
 )
 
 func main() {
-	global.Env = *env
-	global.InitBasePath()
-	global.InitConfig()
-	global.InitDirs()
-	global.InitLog()
+	initialize.Env = *env
+	initialize.InitBasePath()
+	initialize.InitConfig()
+	initialize.InitDirs()
+	initialize.InitLog()
+	initialize.InitDB()
+	//defer initialize.CloseDB()
 
 	if *env == "produce" {
 		gin.SetMode(gin.ReleaseMode)
@@ -26,12 +28,13 @@ func main() {
 	// 默认启动方式，包含 Logger、Recovery 中间件
 	router := gin.New()
 	router.Use(gin.Logger(), gin.Recovery())
-	router.Use(global.CustomRouterMiddle1)
-	router.Use(global.LoggerToFile())
-	//router.LoadHTMLGlob("templates/*")
-	router.LoadHTMLGlob("templates/**/*")
+	router.Use(initialize.CustomRouterMiddle1)
+	router.Use(initialize.LoggerToFile())
 
-	global.InitRouter(router)
+	router.LoadHTMLGlob("templates/**/*")
+	//router.LoadHTMLGlob("templates/*")
+
+	initialize.InitRouter(router)
 	//router.Run(":8080") //listen and server on 0.0.0.0:8080
 
 	//http.ListenAndServe(":8080", router)
