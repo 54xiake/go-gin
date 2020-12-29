@@ -2,10 +2,12 @@ package initialize
 
 import (
 	"fmt"
+	"github.com/astaxie/beego/logs"
 	"go-gin/global"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"log"
+	"time"
 )
 
 func InitDB() {
@@ -32,15 +34,22 @@ func InitDB() {
 		if err1 != nil {
 			log.Panicln("err1:", err1.Error())
 		}
+
 		var maxIdleConns, _ = IniConf.Int("maxidleconns")
 		var maxOpenConns, _ = IniConf.Int("maxopenconns")
+		//最大连接数
 		sqlDB.SetMaxOpenConns(maxOpenConns)
+		//最大空闲连接数
 		sqlDB.SetMaxIdleConns(maxIdleConns)
+		//设置连接空闲超时
+		sqlDB.SetConnMaxLifetime(time.Second * 15)
 	}
 
 }
 
 func CloseDB() {
+	fmt.Println("defer close db connection")
+	logs.Info("defer close db connection")
 	sqlDB, _ := global.DB.DB()
 	sqlDB.Close()
 }

@@ -96,4 +96,7 @@ func InitRouter(router *gin.Engine) {
 	//	// Will output protoexample.Test protobuf serialized data
 	//	c.ProtoBuf(http.StatusOK, data)
 	//})
+
+	testController := controllers.TestController{}
+	router.GET("/test", testController.Test)
 }

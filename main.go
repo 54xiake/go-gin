@@ -19,7 +19,7 @@ func main() {
 	initialize.InitDirs()
 	initialize.InitLog()
 	initialize.InitDB()
-	//defer initialize.CloseDB()
+	defer initialize.CloseDB()
 
 	if *env == "produce" {
 		gin.SetMode(gin.ReleaseMode)
