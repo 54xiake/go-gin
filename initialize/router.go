@@ -2,7 +2,7 @@ package initialize
 
 import (
 	"fmt"
-	"github.com/astaxie/beego/logs"
+	"github.com/beego/beego/v2/core/logs"
 	"github.com/gin-gonic/gin"
 	"go-gin/controllers"
 	"net/http"
@@ -43,6 +43,7 @@ func InitRouter(router *gin.Engine) {
 	router.POST("/login", userController.Login)
 	router.GET("/uri/:users/:password", userController.LoginURI)
 	router.GET("/home", userController.Home)
+	router.GET("/user/create", userController.Create)
 
 	v1 := router.Group("/v1")
 	{

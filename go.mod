@@ -3,9 +3,8 @@ module go-gin
 go 1.14
 
 require (
-	github.com/astaxie/beego v1.12.3
 	github.com/beego/bee/v2 v2.0.2 // indirect
-	github.com/beego/beego/v2 v2.0.1 // indirect
+	github.com/beego/beego/v2 v2.0.1
 	github.com/flosch/pongo2 v0.0.0-20200805083417-63c99409991d // indirect
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-delve/delve v1.5.1 // indirect

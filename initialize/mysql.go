@@ -1,7 +1,7 @@
 package initialize
 
 import (
-	"github.com/astaxie/beego/logs"
+	"github.com/beego/beego/v2/core/logs"
 	"go-gin/global"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -11,11 +11,11 @@ import (
 
 func InitDB() {
 	var err error
-	var myHost = IniConf.String("my_host")
-	var myUser = IniConf.String("my_user")
-	var myPass = IniConf.String("my_pass")
-	var myDb = IniConf.String("my_db")
-	var myOptions = IniConf.String("my_options")
+	var myHost, _ = IniConf.String("my_host")
+	var myUser, _ = IniConf.String("my_user")
+	var myPass, _ = IniConf.String("my_pass")
+	var myDb, _ = IniConf.String("my_db")
+	var myOptions, _ = IniConf.String("my_options")
 	dsn := myUser + ":" + myPass + "@tcp(" + myHost + ")/" + myDb + "?" + myOptions
 	global.DB, err = gorm.Open(mysql.New(mysql.Config{
 		DSN:                       dsn,

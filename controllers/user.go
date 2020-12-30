@@ -1,8 +1,11 @@
 package controllers
 
 import (
+	"fmt"
+	"github.com/beego/beego/v2/adapter/logs"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
+	"go-gin/models"
 	"net/http"
 )
 
@@ -75,4 +78,20 @@ func (u *UserController) Home(c *gin.Context) {
 	c.HTML(http.StatusOK, "users/index.tmpl", gin.H{
 		"title": "Users",
 	})
+}
+
+func (u *UserController) Create(c *gin.Context) {
+	user := &models.User{}
+	user.Username = "test"
+	user.Password = "123456"
+
+	result, err := user.Create(user)
+	if err == nil {
+		fmt.Println(result)
+		logs.Info(result)
+		c.JSON(200, gin.H{"data": result})
+	} else {
+		c.JSON(500, gin.H{"error": err})
+	}
+
 }

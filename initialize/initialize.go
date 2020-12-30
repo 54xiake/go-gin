@@ -2,8 +2,8 @@ package initialize
 
 import (
 	"fmt"
-	"github.com/astaxie/beego/config"
-	"github.com/astaxie/beego/logs"
+	"github.com/beego/beego/v2/core/config"
+	"github.com/beego/beego/v2/core/logs"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"go-gin/global"
@@ -33,13 +33,13 @@ func InitConfig() {
 }
 
 func InitDirs() {
-	tempDir := IniConf.String("tempDir")
+	tempDir, _ := IniConf.String("tempDir")
 	TempDir = BasePath + "/" + tempDir
 	if _, err := os.Stat(TempDir); err != nil && os.IsNotExist(err) {
 		os.Mkdir(TempDir, 0766)
 	}
 
-	logDir := IniConf.String("logDir")
+	logDir, _ := IniConf.String("logDir")
 	if logDir == "" {
 		logDir = BasePath + "/" + tempDir + "/logs"
 	} else {
@@ -50,7 +50,8 @@ func InitDirs() {
 	}
 	LogDir = logDir
 
-	uploadDir := BasePath + "/" + IniConf.String("uploadDir")
+	uploadDir, _ := IniConf.String("uploadDir")
+	uploadDir = BasePath + "/" + uploadDir
 	if _, err := os.Stat(uploadDir); err != nil && os.IsNotExist(err) {
 		os.Mkdir(uploadDir, 0766)
 	}
