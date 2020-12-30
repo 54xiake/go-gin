@@ -99,4 +99,7 @@ func InitRouter(router *gin.Engine) {
 
 	testController := controllers.TestController{}
 	router.GET("/test", testController.Test)
+
+	fileController := controllers.FileController{}
+	router.POST("/upload", fileController.Upload)
 }

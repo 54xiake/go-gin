@@ -1,7 +1,6 @@
 package initialize
 
 import (
-	"fmt"
 	"github.com/astaxie/beego/logs"
 	"go-gin/global"
 	"gorm.io/driver/mysql"
@@ -18,7 +17,6 @@ func InitDB() {
 	var myDb = IniConf.String("my_db")
 	var myOptions = IniConf.String("my_options")
 	dsn := myUser + ":" + myPass + "@tcp(" + myHost + ")/" + myDb + "?" + myOptions
-	fmt.Println(dsn)
 	global.DB, err = gorm.Open(mysql.New(mysql.Config{
 		DSN:                       dsn,
 		DefaultStringSize:         256,   // string 类型字段的默认长度
@@ -48,7 +46,6 @@ func InitDB() {
 }
 
 func CloseDB() {
-	fmt.Println("defer close db connection")
 	logs.Info("defer close db connection")
 	sqlDB, _ := global.DB.DB()
 	sqlDB.Close()

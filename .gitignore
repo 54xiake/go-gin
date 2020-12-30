@@ -2,4 +2,5 @@ go-gin
 go.sum
 logs
 temp
+uploads
 vendor

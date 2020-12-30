@@ -6,6 +6,7 @@ import (
 	"github.com/astaxie/beego/logs"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
+	"go-gin/global"
 	"os"
 	"path"
 	"time"
@@ -41,11 +42,19 @@ func InitDirs() {
 	logDir := IniConf.String("logDir")
 	if logDir == "" {
 		logDir = BasePath + "/" + tempDir + "/logs"
+	} else {
+		logDir = BasePath + "/" + logDir
 	}
 	if _, err := os.Stat(logDir); err != nil && os.IsNotExist(err) {
 		os.Mkdir(logDir, 0766)
 	}
 	LogDir = logDir
+
+	uploadDir := BasePath + "/" + IniConf.String("uploadDir")
+	if _, err := os.Stat(uploadDir); err != nil && os.IsNotExist(err) {
+		os.Mkdir(uploadDir, 0766)
+	}
+	global.UploadDir = uploadDir
 }
 
 func InitLog() {
