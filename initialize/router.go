@@ -42,8 +42,13 @@ func InitRouter(router *gin.Engine) {
 	router.POST("/loginForm", userController.LoginForm)
 	router.POST("/login", userController.Login)
 	router.GET("/uri/:users/:password", userController.LoginURI)
-	router.GET("/home", userController.Home)
+	router.GET("/user/home", userController.Home)
 	router.GET("/user/create", userController.Create)
+
+	//jwt
+	router.POST("/auth", userController.Auth)
+	router.GET("/hello", userController.HelloHandler)
+	router.GET("/home", JWTAuthMiddleware(), userController.HomeHandler)
 
 	v1 := router.Group("/v1")
 	{

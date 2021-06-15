@@ -10,6 +10,8 @@ import (
 
 var (
 	env = flag.String("env", "", "environment dev|prepub|produce")
+	//g errgroup.Group
+
 )
 
 func main() {
@@ -48,4 +50,53 @@ func main() {
 	}
 	s.ListenAndServe()
 
+	//server01 := &http.Server{
+	//	Addr:":3001",
+	//	Handler: router01(),
+	//	ReadTimeout:5*time.Second,
+	//	WriteTimeout:10*time.Second,
+	//}
+	//
+	//server02 := &http.Server{
+	//	Addr:":3002",
+	//	Handler:router02(),
+	//	ReadTimeout:5*time.Second,
+	//	WriteTimeout:10*time.Second,
+	//}
+
+	//g.Go(func() error{
+	//	return server01.ListenAndServe()
+	//})
+	//
+	//g.Go(func() error{
+	//	return server02.ListenAndServe()
+	//})
+	//
+	//if err := g.Wait();err != nil {
+	//	logs.Info(err)
+	//}
+
+}
+
+func router01() http.Handler {
+	r := gin.New()
+	r.Use(gin.Recovery())
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"code": http.StatusOK,
+			"error": "Welcome 01"})
+	})
+
+	return r
+
+}
+
+func router02() http.Handler {
+	r := gin.New()
+	r.Use(gin.Recovery())
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusOK,
+			gin.H{"code": http.StatusOK,
+				"error": "Welcome server 02"})
+	})
+	return r
 }

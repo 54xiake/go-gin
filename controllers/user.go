@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"go-gin/models"
+	"go-gin/utils"
 	"net/http"
 )
 
@@ -94,4 +95,49 @@ func (u *UserController) Create(c *gin.Context) {
 		c.JSON(500, gin.H{"error": err})
 	}
 
+}
+
+//jwt
+func (u *UserController) Auth(c *gin.Context) {
+	// 用户发送用户名和密码过来
+	var user models.User
+	err := c.ShouldBind(&user)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": 2001,
+			"msg":  "无效的参数",
+		})
+		return
+	}
+	// 校验用户名和密码是否正确
+	if user.Username == "test" && user.Password == "test123" {
+		// 生成Token
+		tokenString, _ := utils.GenToken(user.Username)
+		c.JSON(http.StatusOK, gin.H{
+			"code": 2000,
+			"msg":  "success",
+			"data": gin.H{"token": tokenString},
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code": 2002,
+		"msg":  "鉴权失败",
+	})
+	return
+}
+
+func (u *UserController) HomeHandler(c *gin.Context) {
+	username := c.MustGet("username").(string)
+	c.JSON(http.StatusOK, gin.H{
+		"code": 2000,
+		"msg":  "success",
+		"data": gin.H{"username": username},
+	})
+}
+
+func (u *UserController) HelloHandler(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Hello world!",
+	})
 }
