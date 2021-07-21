@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"github.com/DeanThompson/ginpprof"
 	"github.com/gin-gonic/gin"
 	"go-gin/initialize"
 	"net/http"
@@ -41,11 +42,16 @@ func main() {
 
 	//http.ListenAndServe(":8080", router)
 
+	//性能监控
+	//pprof.Register(router)
+
+	ginpprof.Wrap(router)
+
 	s := &http.Server{
 		Addr:           ":8080",
 		Handler:        router,
 		ReadTimeout:    10 * time.Second,
-		WriteTimeout:   10 * time.Second,
+		WriteTimeout:   90 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
 	s.ListenAndServe()
